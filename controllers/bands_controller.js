@@ -2,7 +2,7 @@ const bands = require('express').Router()
 const { Band } = require('../models')
 const { Op } = require('sequelize')
 
-//Find all Bands
+//FIND ALL BANDS
 bands.get('/', async (req, res) => {
     try{
         const allBands = await Band.findAll({
@@ -17,7 +17,7 @@ bands.get('/', async (req, res) => {
     }
 })
 
-//Find One Band
+//FIND ONE BAND
 bands.get('/:id', async (req, res) => {
     try{
         const specificBand = await Band.findOne({
@@ -29,7 +29,7 @@ bands.get('/:id', async (req, res) => {
     }
 })
 
-//Create Band
+//CREATE BAND
 bands.post('/', async (req, res) => {
     try{
         const newBand = await Band.create(req.body)
@@ -39,7 +39,7 @@ bands.post('/', async (req, res) => {
     }
 })
 
-//Update Band
+//UPDATE BAND
 bands.put('/:id', async (req, res) => {
     try{
         const {name, genre} = req.body
@@ -53,7 +53,7 @@ bands.put('/:id', async (req, res) => {
     }
 })
 
-//Delete Bands
+//DELETE BANDS
 bands.delete('/:id', async (req, res) => {
     try{
         const deleted = await Band.destroy({
