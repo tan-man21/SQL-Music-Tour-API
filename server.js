@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
     })
 })
 
-//DATABASE
+// DATABASE
 const sequelize = new Sequelize(process.env.DB_CONNECTION)
 const sequelizeTest = async () => {
     try {
@@ -27,8 +27,12 @@ const sequelizeTest = async () => {
       }
 }
 
+// CONTROLLERS
+const bandsContoller = require('./controllers/bands_controller')
+app.use('/bands', bandsContoller)
+
 // LISTEN
-app.listen(process.env.PORT, () => {
-    sequelizeTest();
+app.listen(process.env.PORT, async () => {
+    await sequelizeTest();
     console.log(`🎸 Rockin' on port: ${process.env.PORT}`)
 })
