@@ -1,12 +1,15 @@
 const events = require('express').Router();
-const { Event } = require('../models')
+const { Event, Meet_Greet, Stage, Band, Set_Time } = require('../models')
 const { Op } = require('sequelize')
 
 //INDEX
 events.get('/', async (req, res) => {
     try{
         const allEvents = await Event.findAll({
-            order: [['date', 'ASC']]
+            order: [['date', 'ASC']],
+            where: {
+                name: { [Op.iLike]: `%${req.query.name ? req.query.name : ''}%` }
+            }
         })
         res.json(allEvents)
     }catch (e){
@@ -18,7 +21,28 @@ events.get('/', async (req, res) => {
 events.get('/:id', async (req, res) => {
     try{
         const oneEvent = await Event.findOne({
-            where: { id: req.params.id }
+            where: { event_id: req.params.id },
+            include: [
+                {
+                    model: Meet_Greet, as: 'meet_greets', 
+                    attributes: { exclude: ['event_id', 'band_id'] },
+                    include: { model: Band, as: 'band'} 
+                },
+                { 
+                    model: Set_Time, 
+                    as: "set_times",
+                    attributes: { exclude: [ "event_id", "stage_id", "band_id" ] },
+                    include: [
+                        { model: Band, as: "band" },
+                        { model: Stage, as: "stage" }
+                    ]
+                },
+                { 
+                    model: Stage, 
+                    as: "stages",
+                    through: { attributes: ['stage_name'] }
+                }
+            ]
         })
         res.json(oneEvent)
     }catch (e){

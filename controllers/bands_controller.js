@@ -21,7 +21,7 @@ bands.get('/', async (req, res) => {
 bands.get('/:id', async (req, res) => {
     try{
         const specificBand = await Band.findOne({
-            where: { id: req.params.id }
+            where: { band_id: req.params.id }
         })
         res.json(specificBand)
     }catch (e){
@@ -45,7 +45,7 @@ bands.put('/:id', async (req, res) => {
         const {name, genre} = req.body
         const [numUpdated] = await Band.update(
             { name, genre },
-            { where: { id: req.params.id } }
+            { where: { id: req.params.band_id } }
             )
         res.json(`Updated ${numUpdated} band(s).`)
     }catch (e){
@@ -57,7 +57,7 @@ bands.put('/:id', async (req, res) => {
 bands.delete('/:id', async (req, res) => {
     try{
         const deleted = await Band.destroy({
-            where: { id: req.params.id }
+            where: { id: req.params.band_id }
         })
         res.send(`Deleted ${deleted} band(s)`)
     }catch (e){

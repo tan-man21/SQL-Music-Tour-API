@@ -13,25 +13,45 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({ Band, Event, Stage }) {
       // define association here
+      Set_Time.belongsTo(Band, {
+        foreignKey: 'band_id',
+        as: 'band'
+      })
+
+      Set_Time.belongsTo(Event, {
+        foreignKey: 'event_id',
+        as: 'event'
+      })
+
+      Set_Time.belongsTo(Stage, {
+        foreignKey: 'stage_id',
+        as: 'stage'
+      })
     }
   }
   Set_Time.init({
-    event: {
+    set_time_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    event_id: {
       type: DataTypes.INTEGER,
       reference: {
         model: Event,
-        key: 'id',
+        key: 'event_id',
         deferrable: Deferrable.INITIALLY_IMMEDIATE
       }
     },
-    stage: DataTypes.INTEGER,
-    band: {
+    stage_id: DataTypes.INTEGER,
+    band_id: {
       type: DataTypes.INTEGER,
       reference: {
         model: Band,
-        key: 'id',
+        key: 'band_id',
         deferrable: Deferrable.INITIALLY_IMMEDIATE
       }
     },
