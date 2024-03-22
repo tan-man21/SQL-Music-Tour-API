@@ -1,5 +1,5 @@
 const events = require('express').Router();
-const { Event, Meet_Greet, Stage, Band, Set_Time } = require('../models')
+const { Event, Meet_Greet, Stage, Band, Set_Time, Stage_Event } = require('../models')
 const { Op } = require('sequelize')
 
 //INDEX
@@ -40,7 +40,7 @@ events.get('/:id', async (req, res) => {
                 { 
                     model: Stage, 
                     as: "stages",
-                    through: { attributes: ['stage_name'] }
+                    through: { attributes: ['stage_name', 'stage_id', 'event_id'] }
                 }
             ]
         })

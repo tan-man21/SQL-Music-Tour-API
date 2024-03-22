@@ -1,5 +1,5 @@
 const stages = require('express').Router();
-const { Stage } = require('../models')
+const { Stage, Event } = require('../models')
 const { Op } = require('sequelize')
 
 //INDEX
@@ -16,7 +16,10 @@ stages.get('/', async (req, res) => {
 stages.get('/:id', async (req, res) => {
     try{
         const oneStage = await Stage.findOne({
-            where: { id: req.params.id }
+            where: { stage_id: req.params.id },
+            include: [
+                {model: Event, as: 'events'}
+            ]
         })
         res.json(oneStage)
     }catch (e){

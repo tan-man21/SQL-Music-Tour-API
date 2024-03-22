@@ -17,16 +17,22 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Meet_Greet.belongsTo(Band, {
         foreignKey: 'band_id',
-        as: 'band'
+        as: 'bands'
       })
 
-      Meet_Greet.belongsTo(Band, {
+      Meet_Greet.belongsTo(Event, {
         foreignKey: 'event_id',
-        as: 'event'
+        as: 'events'
       })
     }
   }
   Meet_Greet.init({
+    meet_greet_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     meet_start_time: DataTypes.DATE,
     end_time: DataTypes.DATE,
     event_id: {
